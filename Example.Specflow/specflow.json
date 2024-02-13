@@ -1,0 +1,12 @@
+{
+  "allowDebugGeneratedFiles": false,
+  "disableRegenerateFeatureFileCodeBehind": true,
+  "generatorPath": ".specflow",
+  "stepDefinitionSkeletonStyle": "regexAttribute",
+  "projectRoot": ".",
+  "featureLocations": [ "Features" ],
+  "bindingCulture": "en-US",
+  "runtime": {
+    "missingOrPendingStepsOutcome": "Inconclusive"
+  }
+}

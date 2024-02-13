@@ -1,17 +1,20 @@
 ﻿using core.Providers;
-using Example.Nunit.Pages;
+using Example.Specflow.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SolidToken.SpecFlow.DependencyInjection;
 using UTAF.Core.Logger;
 using UTAF.Core.Reporter;
 using UTAF.Ui.Driver;
 using UTAF.Ui.Providers;
 
-namespace Example.Nunit.DI
+namespace Example.Specflow.DI
 {
+   
     public partial class DependencyInjector
     {
-        public static IServiceProvider GetServiceProvider()
+        [ScenarioDependencies]
+        public static IServiceCollection GetServiceProvider()
         {
             var services = new ServiceCollection();
             services
@@ -30,7 +33,7 @@ namespace Example.Nunit.DI
                 builder.AddConsole();
             });
 
-            return services.BuildServiceProvider();
+            return services;
 
         }
     }

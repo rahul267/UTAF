@@ -22,7 +22,7 @@ namespace UTAF.Ui.Driver
         {
             return webDriverConfiguration.BrowserName switch
             {
-                BrowserType.Chrome => new ChromeDriver(),
+                BrowserType.Chrome => ChromeFactory.GetWebDriver(),
                 BrowserType.Firefox => new FirefoxDriver(),
                 BrowserType.Safari => new SafariDriver(),
                 _ => new ChromeDriver()

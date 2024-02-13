@@ -1,0 +1,21 @@
+{
+  "webdriver": {
+    "BrowserName": "Chrome",
+    "ScreenshotsPath": "C:\\screenshots\\STORE",
+    "DefaultTimeout": 10,
+    "BrowserLanguage": "en"
+  },
+  "environment": {
+    //"ApplicationName": "Calculator",
+    //"ApplicationUrl": "https://specflowoss.github.io/Calculator-Demo/Calculator.html"
+    "ApplicationUrl": "https://blazedemo.com/"
+  },
+  "logger": {
+    "LogLevel": "Info",
+    "LogStoragePath": ""
+  },
+  "reporter": {
+    "ReportName": "Extent"
+  }
+
+}
