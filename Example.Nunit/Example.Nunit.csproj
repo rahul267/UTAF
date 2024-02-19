@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UTAF.Api\UTAF.Api.csproj" />
     <ProjectReference Include="..\UTAF.Ui\UTAF.Ui.csproj" />
   </ItemGroup>
 

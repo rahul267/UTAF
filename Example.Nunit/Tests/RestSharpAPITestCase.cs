@@ -2,33 +2,36 @@
 using Example.Nunit.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium;
+using System.Threading;
+using UTAF.Api;
 using UTAF.Core.Logger;
 using UTAF.Core.Reporter;
-using UTAF.Ui.Driver;
 
 namespace Example.Nunit.Tests
 {
-    public class BaseTest
+    internal class RestSharpAPITestCase
     {
-        protected IBalazeHomePage _blazeHomePage;
-        protected IWebDriver _driver;
+        protected IRestSharpClient _restClient;
         protected ILoggerService _logger;
         protected IReporter _reporter;
         [OneTimeSetUp]
         public void Setup()
         {
             IServiceProvider provider = DependencyInjector.GetServiceProvider();
+            _restClient = provider.GetRequiredService<IRestSharpClient>();
             _logger = provider.GetRequiredService<ILoggerService>();
             _reporter = provider.GetRequiredService<IReporterFactory>().Reporter;
-            _driver = provider.GetRequiredService<IDriverFactory>().Driver;
-            _blazeHomePage = provider.GetRequiredService<IBalazeHomePage>();
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        [Test]
+        // Getting response with validation      
+        public async Task TestingDogApiGetAsync()
         {
-            _driver.Quit();
-            _reporter.StopTest();
+            
+            RestApiRequest.createRequest("https://dog.ceo/api/");
+            RestApiResponse.SendRequest(UTAF.Api.HttpMethod.GET);
+            var response = await _restClient.Client.ExecuteAsync(RestApiRequest.APIRequest);
+            Assert.IsTrue(RestApiResponse.response.IsSuccessful);
         }
     }
 }

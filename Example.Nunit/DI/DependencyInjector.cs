@@ -2,6 +2,8 @@
 using Example.Nunit.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RestSharp;
+using UTAF.Api;
 using UTAF.Core.Logger;
 using UTAF.Core.Reporter;
 using UTAF.Ui.Driver;
@@ -22,7 +24,8 @@ namespace Example.Nunit.DI
               .AddSingleton(UIConfigurationProvider.Environment)
               .AddSingleton(UIConfigurationProvider.WebDriver)
               .AddScoped<IDriverFactory, DriverFactory>()
-              .AddScoped<IDriverWait, DriverWait>();
+              .AddScoped<IDriverWait, DriverWait>()
+              .AddSingleton<IRestSharpClient, RestSharpClient>();
 
             services.AddLogging(builder =>
             {
