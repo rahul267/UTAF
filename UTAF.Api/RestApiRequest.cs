@@ -7,7 +7,7 @@ namespace UTAF.Api
     {
         public static RestRequest? APIRequest { get; set; }
 
-        public static RestRequest createRequest(string url)
+        public static RestRequest createRequestWithBaseUrl(string url)
         {
             APIRequest = new RestRequest(url);
             return APIRequest;

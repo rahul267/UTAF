@@ -8,10 +8,10 @@ namespace UTAF.Api
         static RestApiRequest restAPIRequest;
         public static RestResponse response;
 
-        public static RestResponse SendRequest(HttpMethod requestType)
+        public static RestResponse SendRequest(HttpMethod requestType,RestClient client)
         {
 
-            var client = new RestClient();
+            
 
             if (RestApiRequest.APIRequest == null)
             {
