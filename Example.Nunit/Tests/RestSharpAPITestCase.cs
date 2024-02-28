@@ -11,19 +11,21 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Example.Nunit.Tests
 {
-    internal class RestSharpAPITestCase
+    internal class RestSharpAPITestCase :BaseTest
     {
         protected RestClient _restClient;
         protected ILoggerService _logger;
         protected IReporter _reporter;
+       
         [OneTimeSetUp]
         public void Setup()
         {
-            IServiceProvider provider = DependencyInjector.GetServiceProvider();
+             IServiceProvider provider = DependencyInjector.GetServiceProvider();
             _restClient = provider.GetRequiredService<IRestSharpClient>().Client;
-            _logger = provider.GetRequiredService<ILoggerService>();
-            _reporter = provider.GetRequiredService<IReporterFactory>().Reporter;
+           
         }
+
+        
 
         [Test]
         // Getting response with validation      
@@ -53,9 +55,12 @@ namespace Example.Nunit.Tests
             };
             var product = JsonSerializer.Deserialize<Product>(response.Content!, options)!;
 
-           Console.WriteLine(product.Id+product.Name);
-           // Assert.That(product.Id,Is.EqualTo(1));
+           
+           Assert.That(product.Id,Is.EqualTo(1));
         }
+
+       
+        
 
     }
 

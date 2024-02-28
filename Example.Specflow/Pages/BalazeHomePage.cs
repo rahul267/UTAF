@@ -10,6 +10,9 @@ namespace Example.Specflow.Pages
     public interface IBalazeHomePage
     {
         public void Launch();
+        public void SelectCities();
+
+        public string GetTitle();
     }
     public class BalazeHomePage : IBalazeHomePage
     {
@@ -43,6 +46,10 @@ namespace Example.Specflow.Pages
             _logger.LogInformation("Selected a city ");
             destinationCityCombo.SelectByIndex(3);
             searchFlightsButton.Submit();
+        }
+
+        public String GetTitle() {
+            return _driver.Title;
         }
     }
 }

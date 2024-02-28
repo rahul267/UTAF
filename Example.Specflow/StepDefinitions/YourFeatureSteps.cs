@@ -1,9 +1,11 @@
-﻿using BoDi;
+﻿using AventStack.ExtentReports.Gherkin.Model;
+using BoDi;
 using Example.Specflow.DI;
 using Example.Specflow.Pages;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using UTAF.Core.Logger;
+using TechTalk.SpecFlow.Infrastructure;
+using UTAF.Core.Reporter;
+
 
 namespace Example.Specflow.StepDefinitions
 {
@@ -13,33 +15,38 @@ namespace Example.Specflow.StepDefinitions
 
         private readonly ScenarioContext _scenarioContext;
         private readonly IBalazeHomePage _balazeHomePage;
+        private readonly ISpecFlowOutputHelper _outputHelper;
+        public   IReporter _reporter;
 
-        public YourFeatureSteps(ScenarioContext scenarioContext, IBalazeHomePage balazeHomePage)
+        public YourFeatureSteps(ScenarioContext scenarioContext, IBalazeHomePage balazeHomePage, ISpecFlowOutputHelper outputHelper,IReporterFactory reporter)
+     
         {
-
-
             _scenarioContext = scenarioContext;
             _balazeHomePage = balazeHomePage;
+            _outputHelper = outputHelper;
+            _reporter = reporter.Reporter;
         }
+
+       
 
         [Given(@"I navigate to the homepage")]
         public void GivenINavigateToTheHomepage()
         {
-           _balazeHomePage.Launch();
-           
+            _balazeHomePage.Launch();
+            _outputHelper.WriteLine("Specflow test case executed");
+
         }
 
         [When(@"I perform some action")]
         public void WhenIPerformSomeAction()
         {
-            // Perform some action
+            _balazeHomePage.SelectCities();
         }
 
         [Then(@"I should see some result")]
         public void ThenIShouldSeeSomeResult()
         {
-            // Assert some result
-           // Assert.IsTrue(_driver.FindElement(By.XPath("//some/xpath")).Displayed);
+            Assert.AreEqual(_balazeHomePage.GetTitle(), "BlazeDemo - reserve");
         }
 
     }

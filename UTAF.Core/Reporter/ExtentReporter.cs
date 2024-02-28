@@ -1,45 +1,70 @@
 ﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin;
+using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
+
 
 namespace UTAF.Core.Reporter
 {
-    internal class ExtentReporter : IReporter
+    public class ExtentReporter : IReporter
     {
-        private readonly ExtentReports extent;
+        private const string FAILED = "Failed";
+        private const string INCONCLUSIVE = "Inconclusive";
+        private const string SKIPPED = "Skipped";
+        protected static  ExtentReports extent {  get; }
+        [ThreadStatic]
+        protected ExtentTest _feature;
+        [ThreadStatic]
+        protected static ExtentTest _scenario;
 
-       
-        public ExtentReporter()
+
+         static ExtentReporter()
         {
-            var extentSparkReporter = new ExtentSparkReporter("Spark.html");
-            var extentReports = new ExtentReports();
+            var extentSparkReporter = new ExtentSparkReporter(ReportDirectoryCreator());
+            var  extentReports = new ExtentReports();
             extentReports.AttachReporter(extentSparkReporter);
-
-            extent= extentReports;
+            extent = extentReports;
         }
 
         public void StartTest(string testName)
         {
-            // Extent-specific implementation for starting a test
-            extent.CreateTest(testName);
+            _feature = extent.CreateTest(testName);
         }
 
-        public void Log(string message)
+        public void StartFeature(string testName)
         {
-            // Extent-specific implementation for logging
-           // extent.AddTestRunnerOutput(message);
+            _feature = extent.CreateTest(new GherkinKeyword("Feature"),testName);
+            
         }
 
-        public void Pass(string message)
+        public void StartScenario(string scenarioName)
         {
-            // Extent-specific implementation for passing a test
-            extent.Flush();
+            _scenario = _feature.CreateNode(new GherkinKeyword("Scenario"), scenarioName);
         }
 
-        public void Fail(string message)
+        public void Log(string stacktrace)
         {
-            // Extent-specific implementation for failing a test
-            extent.Flush();
         }
+        public void LogNunit(string status, string? log, string stacktrace)
+        {
+            switch (status)
+            {
+                case FAILED:
+                    Fail(stacktrace);
+                    break;
+                case INCONCLUSIVE:
+                    Inconclusive(log);
+                    break;
+                case SKIPPED:
+                    Skipped(log);
+                    break;
+                default:
+                    Pass("This test passed"+log);
+                    break;
+            }
+        }
+
+
 
         public void StopTest()
         {
@@ -47,5 +72,69 @@ namespace UTAF.Core.Reporter
             extent.Flush();
         }
 
+        public void Pass(String log)
+        {
+            _feature.Pass(log);
+        }
+
+       public  void Fail(String log)
+        {
+            _feature.Fail(log);
+        }
+
+        public void Inconclusive(String log)
+        {
+            _feature.Warning(log);
+        }
+
+        public void Skipped(String log)
+        {
+            _feature.Skip(log);
+        }
+
+        public  void FailSpec(string stepType, string stepText, string errorMessage)
+        {
+            if (stepType == "Given")
+            {
+                _scenario.CreateNode<Given>(stepText).Fail(errorMessage);
+            }
+            else if (stepType == "When")
+            {
+                _scenario.CreateNode<When>(stepText).Fail(errorMessage);
+            }
+            else if (stepType == "Then")
+            {
+                _scenario.CreateNode<Then>(stepText).Fail(errorMessage);
+            }
+            else if (stepType == "And")
+            {
+                _scenario.CreateNode<And>(stepText).Fail(errorMessage);
+            }
+        }
+
+        public  void PassSpec(string stepType, string stepText)
+        {
+            if (stepType == "Given")
+                _scenario.CreateNode<Given>(stepText);
+            else if (stepType == "When")
+                _scenario.CreateNode<When>(stepText);
+            else if (stepType == "Then")
+                _scenario.CreateNode<Then>(stepText);
+            else if (stepType == "And")
+                _scenario.CreateNode<And>(stepText);
+        }
+
+        private static String ReportDirectoryCreator()
+        {
+            string reportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports", "MyExtentReport.html");
+            if (!Directory.Exists(Path.GetDirectoryName(reportPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(reportPath));
+            }
+            return reportPath;
+        }
+        
     }
+    
+
 }
