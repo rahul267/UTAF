@@ -3,7 +3,7 @@
 
 namespace UTAF.Core.Reporter
 {
-    public  class ReportPortalReporter: IReporter
+    public  class ReportPortalReporter
     {
         
 
@@ -19,6 +19,10 @@ namespace UTAF.Core.Reporter
             //testReporter.StartTest(testName);
         }
 
+        public void StartScenario(string scenarioName)
+        {
+
+        }
         public void Log(string message)
         {
             // ReportPortal-specific implementation for logging

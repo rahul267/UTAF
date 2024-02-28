@@ -23,7 +23,7 @@ namespace UTAF.Core.Reporter
             {
                 ReporterType.Extent => new ExtentReporter(),
                 ReporterType.Allure => new AllureReporter(),
-                ReporterType.ReportPortal => new ReportPortalReporter(),
+                //ReporterType.ReportPortal => new ReportPortalReporter(),
                 _ => new ExtentReporter()
             };
 

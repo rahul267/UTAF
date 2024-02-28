@@ -18,10 +18,10 @@ namespace Example.Specflow.DI
         {
             var services = new ServiceCollection();
             services
-              .AddScoped<IBalazeHomePage, BalazeHomePage>()
-              .AddSingleton<ILoggerService, LoggerService>()
               .AddSingleton(CoreConfigurationProvide.ReporterConfiguration)
               .AddSingleton<IReporterFactory, ReporterFactory>()
+              .AddScoped<IBalazeHomePage, BalazeHomePage>()
+              .AddSingleton<ILoggerService, LoggerService>()
               .AddSingleton(UIConfigurationProvider.Environment)
               .AddSingleton(UIConfigurationProvider.WebDriver)
               .AddScoped<IDriverFactory, DriverFactory>()

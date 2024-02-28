@@ -23,4 +23,8 @@
     <ProjectReference Include="..\UTAF.Ui\UTAF.Ui.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
 </Project>
