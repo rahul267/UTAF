@@ -11,14 +11,16 @@ namespace UTAF.Core.Reporter
         private const string FAILED = "Failed";
         private const string INCONCLUSIVE = "Inconclusive";
         private const string SKIPPED = "Skipped";
+       
         protected static  ExtentReports extent {  get; }
+
         [ThreadStatic]
-        protected ExtentTest _feature;
+        protected static ExtentTest _feature;
         [ThreadStatic]
         protected static ExtentTest _scenario;
 
 
-         static ExtentReporter()
+         static  ExtentReporter()
         {
             var extentSparkReporter = new ExtentSparkReporter(ReportDirectoryCreator());
             var  extentReports = new ExtentReports();

@@ -2,6 +2,8 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Safari;
+using OpenQA.Selenium.Support.Extensions;
+using System.Reflection;
 using UTAF.Ui.Models;
 
 namespace UTAF.Ui.Driver
@@ -27,6 +29,14 @@ namespace UTAF.Ui.Driver
                 BrowserType.Safari => new SafariDriver(),
                 _ => new ChromeDriver()
             };
+        }
+
+        public string TakeScreenshotAsPath(string fileName)
+        {
+            var screenshot = Driver.TakeScreenshot();
+            var path = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}//{fileName}.png";
+            screenshot.SaveAsFile(path);
+            return path;
         }
 
         public void Dispose()

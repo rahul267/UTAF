@@ -1,4 +1,4 @@
-﻿Feature: Example 
+﻿Feature: Balze page Feature
     As a user
     I want to perform some action
     So that I can achieve some result

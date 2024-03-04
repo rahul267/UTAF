@@ -1,8 +1,7 @@
 ﻿using AventStack.ExtentReports.Gherkin.Model;
-using BoDi;
-using Example.Specflow.DI;
 using Example.Specflow.Pages;
 using NUnit.Framework;
+using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using UTAF.Core.Reporter;
 
@@ -46,7 +45,7 @@ namespace Example.Specflow.StepDefinitions
         [Then(@"I should see some result")]
         public void ThenIShouldSeeSomeResult()
         {
-            Assert.AreEqual(_balazeHomePage.GetTitle(), "BlazeDemo - reserve");
+            Assert.That(_balazeHomePage.GetTitle(), Is.EqualTo( "BlazeDemo - reserve"));
         }
 
     }
