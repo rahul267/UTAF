@@ -34,7 +34,7 @@ namespace UTAF.Ui.Driver
         public string TakeScreenshotAsPath(string fileName)
         {
             var screenshot = Driver.TakeScreenshot();
-            var path = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}//{fileName}.png";
+            var path = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}//{fileName}";
             screenshot.SaveAsFile(path);
             return path;
         }

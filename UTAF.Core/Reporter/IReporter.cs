@@ -15,7 +15,7 @@ namespace UTAF.Core.Reporter
         void Inconclusive(String log);
         void Skipped(String log);
          void PassSpec(string stepType, string stepText){ }
-         void FailSpec(string stepType, string stepText, string errorMessage) { }
+         void FailSpec(string stepType, string stepText, string errorMessage, string imgPath) { }
 
 
     }

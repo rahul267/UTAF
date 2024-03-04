@@ -1,7 +1,4 @@
-﻿
-
-
-namespace UTAF.Core.Reporter
+﻿namespace UTAF.Core.Reporter
 {
    
     public class AllureReporter : IReporter

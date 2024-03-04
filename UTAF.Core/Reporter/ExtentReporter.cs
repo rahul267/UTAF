@@ -2,6 +2,7 @@
 using AventStack.ExtentReports.Gherkin;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
+using System.Xml.Linq;
 
 
 namespace UTAF.Core.Reporter
@@ -94,19 +95,22 @@ namespace UTAF.Core.Reporter
             _feature.Skip(log);
         }
 
-        public  void FailSpec(string stepType, string stepText, string errorMessage)
+        public  void FailSpec(string stepType, string stepText, string errorMessage,string imgPath)
         {
+            var img = MediaEntityBuilder.CreateScreenCaptureFromPath(imgPath, stepText).Build();
             if (stepType == "Given")
             {
-                _scenario.CreateNode<Given>(stepText).Fail(errorMessage);
+                _scenario.CreateNode<Given>(stepText).Fail(errorMessage,img);
+               
+
             }
             else if (stepType == "When")
             {
-                _scenario.CreateNode<When>(stepText).Fail(errorMessage);
+                _scenario.CreateNode<When>(stepText).Fail(errorMessage,img);
             }
             else if (stepType == "Then")
             {
-                _scenario.CreateNode<Then>(stepText).Fail(errorMessage);
+                _scenario.CreateNode<Then>(stepText).Fail(errorMessage,img);
             }
             else if (stepType == "And")
             {

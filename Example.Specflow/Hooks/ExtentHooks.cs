@@ -1,5 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 using UTAF.Core.Reporter;
+using UTAF.Ui.Driver;
 
 namespace Example.Specflow.Hooks
 {
@@ -9,13 +10,14 @@ namespace Example.Specflow.Hooks
         private readonly ScenarioContext _scenarioContext;
         private readonly FeatureContext _featureContext;
         public static IReporter _reporter;
-        
+        private IDriverFactory _driver;
 
-        public ExtentHooks(FeatureContext featureContext,ScenarioContext scenarioContext)
+
+        public ExtentHooks(FeatureContext featureContext,ScenarioContext scenarioContext,IDriverFactory driver)
         {
             _featureContext = featureContext;
             _scenarioContext = scenarioContext;
-          
+            _driver = driver;  
         }
 
         [BeforeTestRun]
@@ -65,7 +67,8 @@ namespace Example.Specflow.Hooks
             else if (_scenarioContext.TestError != null)
             {
                 var errorMessage = _scenarioContext.TestError.Message;
-                _reporter.FailSpec(stepType, stepText, errorMessage);
+                var imgPath = _driver.TakeScreenshotAsPath("img.png");
+                _reporter.FailSpec(stepType, stepText, errorMessage,imgPath);
             }
         }
 
