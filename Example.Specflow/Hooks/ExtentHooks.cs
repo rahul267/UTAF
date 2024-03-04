@@ -1,4 +1,5 @@
-﻿using UTAF.Core.Reporter;
+﻿using TechTalk.SpecFlow;
+using UTAF.Core.Reporter;
 
 namespace Example.Specflow.Hooks
 {
@@ -14,9 +15,7 @@ namespace Example.Specflow.Hooks
         {
             _featureContext = featureContext;
             _scenarioContext = scenarioContext;
-           
-
-
+          
         }
 
         [BeforeTestRun]
@@ -40,18 +39,24 @@ namespace Example.Specflow.Hooks
             
         }
 
-        [AfterScenario]
-        public void CloseScenario()
+        [AfterFeature]
+        public static void CloseFaeture()
         {
-           // _reporter.StopTest();
+            _reporter.StopTest();
+        }
+
+        [AfterScenario]
+        public static void CloseScenario()
+        {
+            _reporter.StopTest();
         }
 
         [AfterStep]
         public  void InsertReportingSteps()
         {
-            var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
-            
-            var stepText = ScenarioStepContext.Current.StepInfo.Text;
+            var stepType = _scenarioContext.StepContext.StepInfo.StepDefinitionType.ToString();
+                
+            var stepText = _scenarioContext.StepContext.StepInfo.Text;
             
             if (_scenarioContext.TestError == null)
             {
@@ -71,5 +76,7 @@ namespace Example.Specflow.Hooks
         {
             _reporter.StopTest();
         }
+
+       
     }
 }

@@ -8,7 +8,7 @@ using UTAF.Core.Reporter;
 using HttpMethod = UTAF.Api.HttpMethod;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-
+[assembly: Parallelizable(ParallelScope.All)]
 namespace Example.Nunit.Tests
 {
     internal class RestSharpAPITestCase :BaseTest
@@ -34,7 +34,7 @@ namespace Example.Nunit.Tests
 
             RestApiRequest.createRequestWithBaseUrl("https://dog.ceo/api/");
             RestApiResponse.SendRequest(HttpMethod.GET,_restClient);
-            Assert.IsTrue(RestApiResponse.response.IsSuccessful);
+            Assert.That(RestApiResponse.response.IsSuccessful,Is.True);
         }
         [Test]
         public async Task TestingProductApiGetAsync()

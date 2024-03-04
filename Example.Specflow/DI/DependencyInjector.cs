@@ -21,6 +21,7 @@ namespace Example.Specflow.DI
               .AddSingleton(CoreConfigurationProvide.ReporterConfiguration)
               .AddSingleton<IReporterFactory, ReporterFactory>()
               .AddScoped<IBalazeHomePage, BalazeHomePage>()
+              .AddScoped<ICalculatorPageObject, CalculatorPageObject>()
               .AddSingleton<ILoggerService, LoggerService>()
               .AddSingleton(UIConfigurationProvider.Environment)
               .AddSingleton(UIConfigurationProvider.WebDriver)

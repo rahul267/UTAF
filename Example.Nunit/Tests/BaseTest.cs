@@ -1,14 +1,16 @@
 ﻿using Example.Nunit.DI;
 using Example.Nunit.Pages;
 using Microsoft.Extensions.DependencyInjection;
+using NUnit.Allure.Core;
 using OpenQA.Selenium;
 using System.Diagnostics;
 using UTAF.Core.Logger;
 using UTAF.Core.Reporter;
-using UTAF.Ui.Driver;
+
 
 namespace Example.Nunit.Tests
 {
+    [AllureNUnit]
     public class BaseTest
     {
         protected IBalazeHomePage _blazeHomePage;

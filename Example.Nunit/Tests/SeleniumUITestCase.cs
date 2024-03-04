@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using UTAF.Ui.Driver;
 
-[assembly: Parallelizable(ParallelScope.Fixtures)]
 namespace Example.Nunit.Tests
 {
     public class Tests:BaseTest
@@ -25,6 +24,17 @@ namespace Example.Nunit.Tests
             _logger.LogInformation("Starting the test...");
             _blazeHomePage.Launch();
             Trace.WriteLine("Opened a web page");
+
+        }
+
+        [Test]
+        public void UITestToOpenWebpageAndSelectCities()
+        {
+
+            _logger.LogInformation("Starting the test...");
+            _blazeHomePage.Launch();
+            Trace.WriteLine("Opened BalzeHome page");
+            _blazeHomePage.SelectCities();
 
         }
 

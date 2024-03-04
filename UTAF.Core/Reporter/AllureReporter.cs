@@ -1,20 +1,19 @@
-﻿using Allure.Net.Commons;
-using AventStack.ExtentReports.Gherkin.Model;
-using AventStack.ExtentReports.Gherkin;
+﻿
 
 
 namespace UTAF.Core.Reporter
 {
-    [NUnit.Allure.Core.AllureNUnit]
+   
     public class AllureReporter : IReporter
     {
-        public  AllureReporter()
+       // private static readonly AllureLifecycle _allure;
+         static  AllureReporter()
         {
-            
+        // _allure = AllureLifecycle.Instance;
         }
         public void StartTest(string testName)
         {
-            AllureLifecycle.Instance.UpdateTestCase(tc => tc.name = testName);
+           // AllureLifecycle.Instance.UpdateTestCase(tc => tc.name = testName);
         }
 
         public void StartScenario(string scenarioName)
@@ -26,17 +25,17 @@ namespace UTAF.Core.Reporter
 
         public void Log(string message)
         {
-            AllureLifecycle.Instance.AddAttachment("Log", "text/plain", message);
+           // AllureLifecycle.Instance.AddAttachment("Log", "text/plain", message);
         }
 
         public void Pass(String log)
         {
-            AllureLifecycle.Instance.UpdateTestCase(tc => tc.status = Status.passed);
+            //AllureLifecycle.Instance.UpdateTestCase(tc => tc.status = Status.passed);
         }
 
         public void Fail(string message)
         {
-            AllureLifecycle.Instance.UpdateTestCase(tc => tc.status = Status.failed);
+            //AllureLifecycle.Instance.UpdateTestCase(tc => tc.status = Status.failed);
         }
 
         public void StopTest()
