@@ -8,25 +8,24 @@ using UTAF.Ui.Models;
 
 namespace UTAF.Ui.Driver
 {
-    public class DriverFactory : IDriverFactory, IDisposable
+    public  class DriverFactory : IDriverFactory
     {
-        private readonly WebDriverConfiguration webDriverConfiguration;
-        public IWebDriver Driver { get; }
+        protected readonly WebDriverConfiguration _webDriverConfiguration;
+        public IWebDriver Driver { get; protected set; }
 
-        public DriverFactory(WebDriverConfiguration _webDriverConfiguration)
+        public DriverFactory(WebDriverConfiguration webDriverConfiguration)
         {
-            webDriverConfiguration = _webDriverConfiguration;
+            _webDriverConfiguration = webDriverConfiguration;
             Driver = GetWebDriver();
         }
-
-
         private IWebDriver GetWebDriver()
         {
-            return webDriverConfiguration.BrowserName switch
+            return _webDriverConfiguration.BrowserName switch
             {
-                BrowserType.Chrome => ChromeFactory.GetWebDriver(),
+                BrowserType.Chrome => new ChromeDriverFactory(_webDriverConfiguration).CreateDriver(),
                 BrowserType.Firefox => new FirefoxDriver(),
                 BrowserType.Safari => new SafariDriver(),
+                BrowserType.Edge => new EdgeDriverFactory(_webDriverConfiguration).CreateDriver(),
                 _ => new ChromeDriver()
             };
         }
@@ -41,7 +40,7 @@ namespace UTAF.Ui.Driver
 
         public void Dispose()
         {
-            Driver.Quit();
+            Driver?.Quit();
         }
     }
 }
@@ -50,5 +49,5 @@ public enum BrowserType
     Chrome,
     Firefox,
     Safari,
-    EdgeChromium
+    Edge
 }

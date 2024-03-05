@@ -51,8 +51,7 @@ namespace Example.Specflow.StepDefinitions
             
             var actualResult = _calculatorPageObject.WaitForNonEmptyResult();
 
-            //Assert.That(actualResult , Is.EqualTo(expectedResult.ToString()));
-            Assert.That(actualResult, Is.EqualTo(""));
+            Assert.That(actualResult , Is.EqualTo(expectedResult.ToString()));
         }
 
 
