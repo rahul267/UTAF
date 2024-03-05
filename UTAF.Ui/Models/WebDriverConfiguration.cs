@@ -7,5 +7,7 @@
         public int? DefaultTimeout { get; set; }
         public string? BrowserLanguage { get; set; }
         public string? LocalWebDriverPath { get; set; }
+        public string? OptionArgMax { get; set; }
+
     }
 }
