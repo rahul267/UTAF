@@ -5,7 +5,7 @@
     "ScreenshotsPath": "C:\\screenshots\\STORE",
     "DefaultTimeout": 10,
     "BrowserLanguage": "en",
-    "LocalWebDriverPath": "\"C:\\\\Users\\\\UX508696\\\\Downloads\\\\chromedriver-121\\\\chromedriver-win64\\\\chromedriver\""
+    "LocalWebDriverPath": "C:\\WebDrivers"
   },
   "environment": {
     "ApplicationName": "Calculator",

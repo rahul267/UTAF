@@ -1,9 +1,11 @@
 {
   "webdriver": {
     "BrowserName": "Chrome",
+    "OptionArgMax": "start-maximized",
     "ScreenshotsPath": "C:\\screenshots\\STORE",
     "DefaultTimeout": 10,
-    "BrowserLanguage": "en"
+    "BrowserLanguage": "en",
+    "LocalWebDriverPath": "C:\\WebDrivers"
   },
   "environment": {
     //"ApplicationName": "Calculator",
