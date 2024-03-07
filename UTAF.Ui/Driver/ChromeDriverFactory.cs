@@ -10,10 +10,10 @@ namespace UTAF.Ui.Driver
         private readonly ChromeOptions _options;
         private readonly WebDriverConfiguration _webDriverConfiguration;
 
-        public ChromeDriverFactory(WebDriverConfiguration configuration)
+        public ChromeDriverFactory(WebDriverConfiguration webDriverConfiguration)
         {
-            _webDriverConfiguration = configuration;
-            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath;
+            _webDriverConfiguration = webDriverConfiguration;
+            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath + @"\chromedriver";
             _options = BuildChromeOptions();
         }
 

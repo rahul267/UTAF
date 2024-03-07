@@ -4,7 +4,7 @@ using UTAF.Ui.Models;
 
 namespace UTAF.Ui.Driver
 {
-    internal class EdgeDriverFactory
+    public class EdgeDriverFactory
     {
         private readonly string _localDriverPath;
         private readonly EdgeOptions _options;
@@ -13,11 +13,11 @@ namespace UTAF.Ui.Driver
         public EdgeDriverFactory(WebDriverConfiguration configuration)
         {
             _webDriverConfiguration = configuration;
-            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath;
-            _options = BuildChromeOptions();
+            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath + @"\msedgedriver.exe";
+            _options = BuildEdgeOptions();
         }
 
-        private EdgeOptions BuildChromeOptions()
+        private EdgeOptions BuildEdgeOptions()
         {
             var options = new EdgeOptions();
             options.AddArguments(_webDriverConfiguration.OptionArgMax,
