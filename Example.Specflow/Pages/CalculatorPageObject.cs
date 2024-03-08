@@ -2,33 +2,35 @@
 using OpenQA.Selenium.Support.UI;
 using UTAF.Core.Logger;
 using UTAF.Ui.Driver;
+using UTAF.Ui.Providers;
 
 namespace Example.Specflow.Pages
 {
     public interface ICalculatorPageObject
     {
+        public void Launch();
         public void EnterFirstNumber(string number);
         public void EnterSecondNumber(string number);
         public void ClickAdd();
-        public void EnsureCalculatorIsOpenAndReset();
         public string WaitForEmptyResult();
         public string WaitForNonEmptyResult();
 
     }
-    public class CalculatorPageObject:ICalculatorPageObject
+    public class CalculatorPageObject : ICalculatorPageObject
     {
         private IWebDriver _driver;
         private IDriverFactory _driverFactory;
         private ILoggerService _logger;
-        private const string CalculatorUrl = "https://specflowoss.github.io/Calculator-Demo/Calculator.html";
         public const int DefaultWaitInSeconds = 5;
+        private static Uri _calculatorUrl;
 
-        public CalculatorPageObject(IDriverFactory driverFactory, ILoggerService logger)
+        public CalculatorPageObject(IDriverFactory driverFactory, ILoggerService logger, IUIConfigurationProvider conf)
         {
             _driverFactory = driverFactory;
             _driver = _driverFactory.Driver;
             _logger = logger;
-            _driver.Navigate().GoToUrl(CalculatorUrl);
+            _calculatorUrl = new Uri("https://specflowoss.github.io/Calculator-Demo/Calculator.html");
+
         }
 
         private IWebElement FirstNumberElement => _driver.FindElement(By.Id("first-number"));
@@ -37,6 +39,10 @@ namespace Example.Specflow.Pages
         private IWebElement ResultElement => _driver.FindElement(By.Id("result"));
         private IWebElement ResetButtonElement => _driver.FindElement(By.Id("reset-button"));
 
+        public void Launch()
+        {
+            _driver.Navigate().GoToUrl(_calculatorUrl);
+        }
         public void EnterFirstNumber(string number)
         {
             FirstNumberElement.Clear();
@@ -54,20 +60,7 @@ namespace Example.Specflow.Pages
             AddButtonElement.Click();
         }
 
-        public void EnsureCalculatorIsOpenAndReset()
-        {
-            
-            if (_driver.Url != CalculatorUrl)
-            {
-                _driver.Url = CalculatorUrl;
-            }
-            
-            else
-            {
-                ResetButtonElement.Click();
-                WaitForEmptyResult();
-            }
-        }
+        
 
         public string WaitForNonEmptyResult()
         {

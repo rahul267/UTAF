@@ -22,12 +22,13 @@ namespace Example.Specflow.StepDefinitions
             _calculatorPageObject = calculatorPageObject;
             _outputHelper = outputHelper;
             _reporter = reporter.Reporter;
+         
         }
 
         [Given("the first number is (.*)")]
         public void GivenTheFirstNumberIs(int number)
         {
-            //delegate to Page Object
+            _calculatorPageObject.Launch();
             _calculatorPageObject.EnterFirstNumber(number.ToString());
         }
 

@@ -4,52 +4,41 @@ using UTAF.Ui.Models;
 
 namespace UTAF.Ui.Driver
 {
-    public class EdgeDriverFactory
+    public class EdgeDriverFactory:BaseDriverFactory
     {
-        private readonly string _localDriverPath;
-        private readonly EdgeOptions _options;
-        private readonly WebDriverConfiguration _webDriverConfiguration;
-
-        public EdgeDriverFactory(WebDriverConfiguration configuration)
+        public EdgeDriverFactory(WebDriverConfiguration webDriverConfiguration, GridConfiguration gridConfiguration)
+        : base(
+            webDriverConfiguration.LocalWebDriverPath + @"\msedgedriver.exe",
+            gridConfiguration.IsEnabled ? gridConfiguration.GridUri : null,
+            BuildEdgeOptions(webDriverConfiguration))
         {
-            _webDriverConfiguration = configuration;
-            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath + @"\msedgedriver.exe";
-            _options = BuildEdgeOptions();
         }
 
-        private EdgeOptions BuildEdgeOptions()
+        private static EdgeOptions BuildEdgeOptions(WebDriverConfiguration webDriverConfiguration)
         {
             var options = new EdgeOptions();
-            options.AddArguments(_webDriverConfiguration.OptionArgMax,
-                                 "enable-automation",
-                                 "disable-infobars");
-            options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 1);
+            // If any edge specific options needed, set them up here
             return options;
         }
 
-        public IWebDriver CreateDriver()
+        protected override IWebDriver CreateLocalDriver()
         {
-            if (IsLocalDriverAvailable(_localDriverPath))
+            if (this._options is EdgeOptions edgeOptions)
             {
-                _options.BinaryLocation = _localDriverPath;
-                return new EdgeDriver(_localDriverPath, _options);
+                edgeOptions.BinaryLocation = this._localDriverPath;
+                return new EdgeDriver(this._localDriverPath, edgeOptions);
             }
-
-            try
-            {
-                return new EdgeDriver(_options);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to initiate Remote WebDriver: {ex}");
-            }
-
-            return null; 
+            throw new InvalidOperationException("Driver options are not of type EdgeOptions");
         }
 
-        private static bool IsLocalDriverAvailable(string driverPath)
+        protected override IWebDriver CreateDefaultDriver()
         {
-            return File.Exists(driverPath);
+            if (this._options is EdgeOptions edgeOptions)
+            {
+                return new EdgeDriver(edgeOptions);
+            }
+            throw new InvalidOperationException("Driver options are not of type EdgeOptions");
         }
+
     }
 }

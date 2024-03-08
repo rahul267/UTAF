@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Nunit", "Example.Nunit\Example.Nunit.csproj", "{979B8366-6982-4BB1-AB3B-19269736BC01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Specflow", "Example.Specflow\Example.Specflow.csproj", "{2CE15C00-EC08-4AA3-B8AE-D9F74A8B0D65}"
+	ProjectSection(ProjectDependencies) = postProject
+		{01F4120E-EF87-4888-869F-C08D0D7D73D9} = {01F4120E-EF87-4888-869F-C08D0D7D73D9}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UTAF.Api", "UTAF.Api\UTAF.Api.csproj", "{01F4120E-EF87-4888-869F-C08D0D7D73D9}"
 EndProject

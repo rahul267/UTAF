@@ -1,4 +1,5 @@
-﻿using Example.Nunit.DI;
+﻿using core.Providers;
+using Example.Nunit.DI;
 using Example.Nunit.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Allure.Core;
@@ -17,12 +18,15 @@ namespace Example.Nunit.Tests
         protected IWebDriver _driver;
         protected ILoggerService _logger;
         protected IReporter _reporter;
+        protected ICoreConfigurationProvider _coreConfigurationProvider;
+        
         
         [OneTimeSetUp]
         public void Setup()
         {
             IServiceProvider provider = DependencyInjector.GetServiceProvider();
-            _logger = provider.GetRequiredService<ILoggerService>();
+            _coreConfigurationProvider=provider.GetRequiredService<ICoreConfigurationProvider>();
+           _logger = provider.GetRequiredService<ILoggerService>();
             _reporter = provider.GetRequiredService<IReporterFactory>().Reporter;
             Trace.Listeners.Add(new ConsoleTraceListener());
             

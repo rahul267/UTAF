@@ -12,9 +12,9 @@ namespace UTAF.Core.Reporter
     {
         private static ReporterConfiguration reporterConfiguration;
         public IReporter Reporter { get; }
-        public ReporterFactory(ReporterConfiguration _reporterConfiguration)
+        public ReporterFactory(ICoreConfigurationProvider coreConfigurationProvider)
         {
-            reporterConfiguration = _reporterConfiguration;
+            reporterConfiguration = coreConfigurationProvider.ReporterConfiguration;
             Reporter = CreateReporter();
         }
         public static IReporter CreateReporter()

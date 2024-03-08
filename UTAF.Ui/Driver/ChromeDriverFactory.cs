@@ -1,55 +1,39 @@
 ﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using UTAF.Ui.Models;
+using UTAF.Ui.Providers;
 
 namespace UTAF.Ui.Driver
 {
-    public class ChromeDriverFactory
+    public class ChromeDriverFactory:BaseDriverFactory
     {
-        private readonly string _localDriverPath;
-        private readonly ChromeOptions _options;
-        private readonly WebDriverConfiguration _webDriverConfiguration;
+        private const string CHROMEDRIVER = @"\chromedriver";
 
-        public ChromeDriverFactory(WebDriverConfiguration webDriverConfiguration)
-        {
-            _webDriverConfiguration = webDriverConfiguration;
-            _localDriverPath = _webDriverConfiguration.LocalWebDriverPath + @"\chromedriver";
-            _options = BuildChromeOptions();
-        }
+        public ChromeDriverFactory(IUIConfigurationProvider uiConfigurationProvider) :base
+        (
+        uiConfigurationProvider.WebDriver.LocalWebDriverPath + CHROMEDRIVER,
+        uiConfigurationProvider.GridConfiguration.IsEnabled ? uiConfigurationProvider.GridConfiguration.GridUri : null,
+        BuildChromeOptions(uiConfigurationProvider.WebDriver))
+        {}
+      
 
-        private ChromeOptions BuildChromeOptions()
+        private static ChromeOptions BuildChromeOptions(WebDriverConfiguration webDriverConfiguration)
         {
             var options = new ChromeOptions();
-            options.AddArguments(_webDriverConfiguration.OptionArgMax,
+            options.AddArguments(webDriverConfiguration.OptionArgMax,
                                  "enable-automation",
                                  "disable-infobars");
             options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 1);
             return options;
         }
 
-        public IWebDriver CreateDriver()
+        protected override IWebDriver CreateLocalDriver()
         {
-            if (IsLocalDriverAvailable(_localDriverPath))
-            {
-                _options.BinaryLocation = _localDriverPath;
-                return new ChromeDriver(_localDriverPath, _options);
-            }
-
-            try
-            {
-                return new ChromeDriver(_options);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to initiate Remote WebDriver: {ex}");
-            }
-
-            return null; // optionally, you may want to throw an exception here, instead of returning null
+            this._options.BinaryLocation = this._localDriverPath;
+            return new ChromeDriver(this._localDriverPath, this._options as ChromeOptions);
         }
 
-        private static bool IsLocalDriverAvailable(string driverPath)
-        {
-            return File.Exists(driverPath);
-        }
+        protected override IWebDriver CreateDefaultDriver() => new ChromeDriver(this._options as ChromeOptions);
+
     }
 }
