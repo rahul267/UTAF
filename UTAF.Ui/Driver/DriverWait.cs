@@ -1,39 +1,49 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium;
+using UTAF.Ui.Driver;
 using UTAF.Ui.Models;
 
-namespace UTAF.Ui.Driver
+public class DriverWait : IDriverWait
 {
-    public class DriverWait : IDriverWait
+    private readonly IDriverFactory _driverFixture;
+    private readonly WebDriverConfiguration _webDriverConfiguration;
+
+    // Setting up defaults and reuse in the class
+    private readonly int _defaultTimeout;
+    private readonly int _pollingInterval;
+    private readonly Lazy<WebDriverWait> _webDriverWait;
+    private readonly object _lock=new object();
+
+    public DriverWait(IDriverFactory driverFixture, WebDriverConfiguration webDriverConfiguration)
     {
-        private readonly IDriverFactory _driverFixture;
-        private readonly WebDriverConfiguration _webDriverConfiguration;
-        private readonly Lazy<WebDriverWait> _webDriverWait;
+        _driverFixture = driverFixture;
+        _webDriverConfiguration = webDriverConfiguration;
 
-        public DriverWait(IDriverFactory driverFixture, WebDriverConfiguration webDriverConfiguration)
-        {
-            _driverFixture = driverFixture;
-            _webDriverConfiguration = webDriverConfiguration;
-            _webDriverWait = new Lazy<WebDriverWait>(GetWaitDriver);
-        }
+        _defaultTimeout = webDriverConfiguration.DefaultTimeout ?? 30;
+        _pollingInterval = webDriverConfiguration.PollingInterval ?? 1;
 
-        public IWebElement FindElement(By elementLocator)
-        {
-            return _webDriverWait.Value.Until(_ => _driverFixture.Driver.FindElement(elementLocator));
-        }
+        _webDriverWait = new Lazy<WebDriverWait>(GetWaitDriver);
+    }
 
-        public IEnumerable<IWebElement> FindElements(By elementLocator)
-        {
-            return _webDriverWait.Value.Until(_ => _driverFixture.Driver.FindElements(elementLocator));
-        }
+    public IWebElement FindElement(By elementLocator)
+    {
+        return _webDriverWait.Value.Until(driver => _driverFixture.Driver.FindElement(elementLocator));
+    }
 
-        private WebDriverWait GetWaitDriver()
+    public IEnumerable<IWebElement> FindElements(By elementLocator)
+    {
+        return _webDriverWait.Value.Until(driver => _driverFixture.Driver.FindElements(elementLocator));
+    }
+
+    private WebDriverWait GetWaitDriver()
+    {
+        lock (_lock)
         {
-            return new(_driverFixture.Driver, timeout: TimeSpan.FromSeconds(_webDriverConfiguration.DefaultTimeout ?? 30))
+            return new WebDriverWait(_driverFixture.Driver, TimeSpan.FromSeconds(_defaultTimeout))
             {
-                PollingInterval = TimeSpan.FromSeconds(_webDriverConfiguration.DefaultTimeout ?? 1)
+                PollingInterval = TimeSpan.FromSeconds(_pollingInterval)
             };
         }
-
     }
+
 }

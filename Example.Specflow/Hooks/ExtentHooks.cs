@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using core.Providers;
+using TechTalk.SpecFlow;
 using UTAF.Core.Reporter;
 using UTAF.Ui.Driver;
 

@@ -15,10 +15,10 @@ namespace Example.Specflow.StepDefinitions
         private readonly ScenarioContext _scenarioContext;
         private readonly IBalazeHomePage _balazeHomePage;
         private readonly ISpecFlowOutputHelper _outputHelper;
-        public   IReporter _reporter;
+        public IReporter _reporter;
 
-        public YourFeatureSteps(ScenarioContext scenarioContext, IBalazeHomePage balazeHomePage, ISpecFlowOutputHelper outputHelper,IReporterFactory reporter)
-     
+        public YourFeatureSteps(ScenarioContext scenarioContext, IBalazeHomePage balazeHomePage, ISpecFlowOutputHelper outputHelper, IReporterFactory reporter)
+
         {
             _scenarioContext = scenarioContext;
             _balazeHomePage = balazeHomePage;
@@ -26,7 +26,7 @@ namespace Example.Specflow.StepDefinitions
             _reporter = reporter.Reporter;
         }
 
-       
+
 
         [Given(@"I navigate to the homepage")]
         public void GivenINavigateToTheHomepage()
@@ -45,8 +45,9 @@ namespace Example.Specflow.StepDefinitions
         [Then(@"I should see some result")]
         public void ThenIShouldSeeSomeResult()
         {
-            Assert.That(_balazeHomePage.GetTitle(), Is.EqualTo( "BlazeDemo - reserve"));
+            Assert.That(_balazeHomePage.GetTitle(), Is.EqualTo("BlazeDemo - reserve"));
         }
 
     }
 }
+

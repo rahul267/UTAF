@@ -17,13 +17,14 @@ namespace Example.Nunit.Pages
         private IWebDriver _driver;
         private IDriverFactory _driverFactory;
         private ILoggerService _logger;
-        private static Uri blazorUrl => new Uri(UIConfigurationProvider.Environment.ApplicationUrl);
+        private static Uri blazorUrl;
 
-        public BalazeHomePage(IDriverFactory driverFactory, ILoggerService logger)
+        public BalazeHomePage(IDriverFactory driverFactory, ILoggerService logger,IUIConfigurationProvider conf)
         {
             _driverFactory = driverFactory;
             _driver = _driverFactory.Driver;
             _logger = logger;
+            blazorUrl= new Uri(conf.Environment.ApplicationUrl);
         }
 
 

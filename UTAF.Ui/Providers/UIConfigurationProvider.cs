@@ -1,18 +1,30 @@
 ﻿using core.Providers;
+using Microsoft.Extensions.Configuration;
 using UTAF.Ui.Models;
 
 namespace UTAF.Ui.Providers
 {
-    public class UIConfigurationProvider : CoreConfigurationProvide
+    public interface IUIConfigurationProvider : ICoreConfigurationProvider
     {
-        private const string WebDriverConfigSectionName = "webdriver";
-        private const string EnvironmentConfigSectionName = "environment";
+        WebDriverConfiguration WebDriver { get; }
+        EnvironmentConfiguration Environment { get; }
+        GridConfiguration GridConfiguration { get; }
+    }
+    public class UIConfigurationProvider : CoreConfigurationProvider, IUIConfigurationProvider
+    {
+            private readonly IConfiguration _configuration;
 
-        public static WebDriverConfiguration WebDriver =>
-            Load<WebDriverConfiguration>(WebDriverConfigSectionName);
+            public UIConfigurationProvider(IConfiguration configuration) : base(configuration)
+            {
+                _configuration = configuration;
+            }
 
-        public static EnvironmentConfiguration Environment =>
-            Load<EnvironmentConfiguration>(EnvironmentConfigSectionName);
+            public WebDriverConfiguration WebDriver => _configuration.GetSection("webdriver").Get<WebDriverConfiguration>();
+
+            public EnvironmentConfiguration Environment => _configuration.GetSection("environment").Get<EnvironmentConfiguration>();
+
+            public GridConfiguration GridConfiguration => _configuration.GetSection("grid").Get<GridConfiguration>();
+        }
+
 
     }
-}
