@@ -1,0 +1,1 @@
+// Here goes the code for the feature file for the website https://blazedemo.com/
