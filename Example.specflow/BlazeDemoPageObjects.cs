@@ -1,0 +1,1 @@
+// Here goes the code for page objects for the website https://blazedemo.com/
