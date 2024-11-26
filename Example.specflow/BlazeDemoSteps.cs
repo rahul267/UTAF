@@ -1,0 +1,1 @@
+// Here goes the code for the step definitions for the website https://blazedemo.com/
